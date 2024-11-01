@@ -7,7 +7,7 @@
 %%%%% NAME: Theresa Killam
 %%%%% NAME:
 %
-% Add the required rules in the corresponding sections. 
+% Add the required rules in the corresponding sections.
 % If you put the rules in the wrong sections, you will lose marks.
 %
 % You may add additional comments as you choose but DO NOT MODIFY the comment lines below
@@ -27,6 +27,8 @@ account(7, niall, bank_of_montreal, 2000).
 account(8, zain, royal_bank, 800).
 account(9, harry, scotiabank, 5100).
 account(10, liam, td_bank, 2750).
+account(11, john, td_bank, 1000).
+
 
 
 created(1, sherry, cibc, 1, 2022).
@@ -39,6 +41,7 @@ created(7, niall, bank_of_montreal, 6, 2019).
 created(8, zain, royal_bank, 10, 2023).
 created(9, harry, scotiabank, 4, 2021).
 created(10, liam, td_bank, 8, 2024).
+created(11, john, td_bank, 12, 2024).
 
 
 lives(sherry, toronto).
@@ -51,6 +54,8 @@ lives(niall, calgary).
 lives(zain, mississauga).
 lives(harry, montreal).
 lives(liam, ottawa).
+lives(john, sanFrancisco).
+
 
 
 location(toronto, canada).
@@ -80,6 +85,8 @@ gender(niall, man).
 gender(zain, man).
 gender(harry, man).
 gender(liam, man).
+gender(john, man).
+
 
 
 
@@ -93,20 +100,23 @@ gender(liam, man).
 %%%%% Your helpers should include at least the following:
 %%%%%       bank(X), person(X), man(X), woman(X), city(X), country(X)
 %%%%% You may introduce others as you see fit
-%%%%% DO NOT INCLUDE ANY statements for account, created, lives, location and gender 
+%%%%% DO NOT INCLUDE ANY statements for account, created, lives, location and gender
 %%%%%     in this section
 
 
 
 
 % country(X) it is a location and not a bank
-country(X) :- location(_, X), not bank(X).
+country(X) :- location(_, X), not city(X).
 
 % city(X) it is a location and not a bank
-city(X) :- location(X, _), not bank(X).
+city(X) :- lives(_ , X).
+
 
 % bank(X) it is a location and not a city
-bank(X) :- location(X, _), not city(X)
+bank(X) :- account(_, _, X, _).
+bank(X) :- created(_, _, X, _, _).
+
 
 man(X) :- gender(_, man).
 woman(X) :- gender(_, woman).
@@ -121,6 +131,73 @@ person(P) :- woman(X).
 
 
 
+article(a).
+article(an).
+article(the).
+article(any).
+
+
+common_noun(bank, X) :- bank(X).
+common_noun(city, X) :- city(X).
+common_noun(country, X) :- country(X).
+common_noun(man, X) :- man(X).
+common_noun(woman, X) :- woman(X).
+common_noun(person, X) :- person(X).
+common_noun(owner, X) :- person(X).
+common_noun(account, X) :- account(_, X, _, _).
+common_noun(balance, Balance) :- account(_, _, _, Balance).
+
+
+
+proper_noun(X) :- person(X).
+proper_noun(X) :- bank(X).
+proper_noun(X) :- city(X).
+proper_noun(X) :- country(X).
+proper_noun(X) :- number(X).
+
+
+
+
+adjective(canadian, X) :- lives(X, City), location(City, canada).
+adjective(american, X) :- lives(X, City), location(City, usa).
+adjective(british, X) :- lives(X, City), location(City, uk).
+adjective(female, X) :- woman(X).
+adjective(male, X) :- man(X).
+adjective(local, X) :- location(X, canada).
+adjective(foreign, X) :- lives(X, City), location(City, Country), not Country = canada.
+adjective(small, X) :- account(_, X, _, Balance), Balance < 1000.
+adjective(medium, X) :- account(_, X, _, Balance), Balance >= 1000, Balance =< 10000.
+adjective(large, X) :- account(_, X, _, Balance), Balance > 10000.
+adjective(old, X) :- created(_, X, _, _, Year), Year < 2024.
+adjective(new, X) :- created(_, X, _, _, 2024).
+recent(X) :- created(_, X, _, _, 2024).
+
+
+
+
+
+% Cities in countries
+preposition(in, City, Country) :- city(City), location(City, Country).
+
+% Banks in cities
+preposition(in, Bank, City) :- bank(Bank), location(Bank, City).
+
+% Accounts in banks
+preposition(in, Account, Bank) :- account(_, _, Bank, _), account(_, Account, Bank, _).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 %%%%% SECTION: parser
@@ -129,7 +206,7 @@ person(P) :- woman(X).
 %%%%% For testing your answers for question 5, we will use your parser below
 %%%%% You may include helper predicates for Question 5 here, but they
 %%%%% should not be needed for Question 3
-%%%%% DO NOT INCLUDE ANY statements for account, created, lives, location and gender 
+%%%%% DO NOT INCLUDE ANY statements for account, created, lives, location and gender
 %%%%%     in this section
 
 what(Words, Ref) :- np(Words, Ref).
@@ -153,12 +230,11 @@ np2([Noun|Rest], What) :- common_noun(Noun, What), mods(Rest,What).
 
 mods([], _).
 mods(Words, What) :-
-	appendLists(Start, End, Words),
-	prepPhrase(Start, What),	mods(End, What).
+    appendLists(Start, End, Words),
+    prepPhrase(Start, What),    mods(End, What).
 
 prepPhrase([Prep | Rest], What) :-
-	preposition(Prep, What, Ref), np(Rest, Ref).
+    preposition(Prep, What, Ref), np(Rest, Ref).
 
 appendLists([], L, L).
 appendLists([H | L1], L2, [H | L3]) :-  appendLists(L1, L2, L3).
-
