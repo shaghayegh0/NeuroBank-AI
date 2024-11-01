@@ -3,8 +3,8 @@
 % If you only have 2 group members, leave the last space blank
 %
 %%%%%
-%%%%% NAME: 
-%%%%% NAME:
+%%%%% NAME: Shaghayegh Dehghanisanij
+%%%%% NAME: Theresa Killam
 %%%%% NAME:
 %
 % Add the required rules in the corresponding sections. 
@@ -17,7 +17,69 @@
 %%%%% SECTION: database
 %%%%% Put statements for account, created, lives, location and gender below
 
+ account(1, sherry, cibc, 3200).
+account(2, theresa, bank_of_montreal, 4500).
+account(3, bob, royal_bank, 6000).
+account(4, sarah, cibc, 1500).
+account(5, tara, td_bank, 7500).
+account(6, james, cibc, 10000).
+account(7, niall, bank_of_montreal, 2000).
+account(8, zain, royal_bank, 800).
+account(9, harry, scotiabank, 5100).
+account(10, liam, td_bank, 2750).
 
+
+created(1, sherry, cibc, 1, 2022).
+created(2, theresa, bank_of_montreal, 5, 2023).
+created(3, bob, royal_bank, 3, 2024).
+created(4, sarah, cibc, 7, 2021).
+created(5, tara, td_bank, 11, 2022).
+created(6, james, cibc, 9, 2020).
+created(7, niall, bank_of_montreal, 6, 2019).
+created(8, zain, royal_bank, 10, 2023).
+created(9, harry, scotiabank, 4, 2021).
+created(10, liam, td_bank, 8, 2024).
+
+
+lives(sherry, toronto).
+lives(theresa, scarborough).
+lives(bob, richmondHill).
+lives(sarah, vancouver).
+lives(tara, markham).
+lives(james, toronto).
+lives(niall, calgary).
+lives(zain, mississauga).
+lives(harry, montreal).
+lives(liam, ottawa).
+
+
+location(toronto, canada).
+location(scarborough, canada).
+location(richmondHill, canada).
+location(vancouver, canada).
+location(markham, canada).
+location(mississauga, canada).
+location(calgary, canada).
+location(montreal, canada).
+location(ottawa, canada).
+location(sanFrancisco, usa).
+location(bank_of_montreal, montreal).
+location(cibc, toronto).
+location(royal_bank, toronto).
+location(td_bank, toronto).
+location(scotiabank, ottawa).
+
+
+gender(sherry, woman).
+gender(theresa, woman).
+gender(bob, man).
+gender(sarah, woman).
+gender(tara, woman).
+gender(james, man).
+gender(niall, man).
+gender(zain, man).
+gender(harry, man).
+gender(liam, man).
 
 
 %%%%% SECTION: lexicon

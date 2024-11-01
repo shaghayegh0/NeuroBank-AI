@@ -2,8 +2,8 @@
 % If you only have 2 group members, leave the last space blank
 %
 %%%%%
-%%%%% NAME: 
-%%%%% NAME:
+%%%%% NAME: Shaghayegh Dehghanisanij
+%%%%% NAME: Theresa Killam
 %%%%% NAME:
 %
 % Add your interaction below.
@@ -12,3 +12,19 @@
 
 
 
+?- account(X, Name, royal_bank, _), gender(Name, man), lives(Name, richmondHill).
+
+
+?- lives(Name, City), location(City, canada), account(X, Name, cibc, _), account(Y, Name, cibc, _), not X = Y.
+
+
+?- location(Bank, toronto).
+
+
+?- lives(Name, scarborough), account(X, Name, bank_of_montreal, Balance).
+
+
+?- location(City, canada), lives(Person1, City), lives(Person2, City), not Person1 = Person2, account(_, Person1, Bank, _), account(_, Person2, Bank, _).
+
+
+?- location(City, usa).
