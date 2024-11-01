@@ -17,7 +17,7 @@
 %%%%% SECTION: database
 %%%%% Put statements for account, created, lives, location and gender below
 
- account(1, sherry, cibc, 3200).
+account(1, sherry, cibc, 3200).
 account(2, theresa, bank_of_montreal, 4500).
 account(3, bob, royal_bank, 6000).
 account(4, sarah, cibc, 1500).
@@ -82,6 +82,10 @@ gender(harry, man).
 gender(liam, man).
 
 
+
+
+
+
 %%%%% SECTION: lexicon
 %%%%% Put the rules/statements defining articles, adjectives, proper nouns, common nouns,
 %%%%% and prepositions in this section.
@@ -91,6 +95,31 @@ gender(liam, man).
 %%%%% You may introduce others as you see fit
 %%%%% DO NOT INCLUDE ANY statements for account, created, lives, location and gender 
 %%%%%     in this section
+
+
+
+
+% country(X) it is a location and not a bank
+country(X) :- location(_, X), not bank(X).
+
+% city(X) it is a location and not a bank
+city(X) :- location(X, _), not bank(X).
+
+% bank(X) it is a location and not a city
+bank(X) :- location(X, _), not city(X)
+
+man(X) :- gender(_, man).
+woman(X) :- gender(_, woman).
+
+person(P) :- account(_, P, _, _).
+person(P) :- lives(P, _).
+person(P) :- man(X).
+person(P) :- woman(X).
+
+
+
+
+
 
 
 
