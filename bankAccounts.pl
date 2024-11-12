@@ -138,8 +138,12 @@ article(the).
 article(any).
 
 
-common_noun(bank, X) :- bank(X).
 
+
+
+
+
+common_noun(bank, X) :- bank(X).
 common_noun(city, X) :- city(X).
 common_noun(country, X) :- country(X).
 common_noun(man, X) :- man(X).
@@ -151,12 +155,21 @@ common_noun(balance, Balance) :- account(_, _, _, Balance).
 
 
 
+
+
+
+
+
 proper_noun(X) :- person(X).
 proper_noun(X) :- bank(X).
 proper_noun(X) :- account(X,_,_,_).
 proper_noun(X) :- city(X).
 proper_noun(X) :- country(X).
 proper_noun(X) :- number(X).
+
+
+
+
 
 
 
@@ -171,7 +184,6 @@ adjective(male, X) :- man(X).
 adjective(local, Bank) :- bank(Bank), location(BankCity, canada), location(Bank, BankCity).
 adjective(local, Person) :- lives(Person, City), location(City, canada).
 adjective(local, X) :- common_noun(Y , X).
-adjective(local, Bank) :- bank(Bank), location(BankCity, canada), location(Bank, BankCity).
 
 
 
@@ -190,24 +202,31 @@ recent(X) :- created(X, _, _, _, 2024).
 
 
 
-% Prepositions
-preposition(of, Owner, Account) :- common_noun(owner, Owner), common_noun(account, Account).
+%%%%% Prepositions
 
-preposition(from, Person, City) :- person(Person), lives(Person, City).
+% "of" can mean "owned by" or relate an account to a person or balance
+preposition(of, Account, Person) :- account(Account, Person, _, _).
+preposition(of, Account, Balance) :- account(Account, _, _, Balance).
+preposition(of, Balance, Account) :- account(Account, _, _, Balance).
+preposition(of, Account, Owner) :- common_noun(owner, Owner), account(Account, Owner, _, _).
 
-preposition(in, Place, Country) :- city(Place), country(Country).
-preposition(in, Bank, City) :- bank(Bank), location(City, canada).
-preposition(in, Adjective, Bank) :- adjective(Adjective, Bank).
-preposition(in, Bank, City) :- common_noun(bank, Bank).
-preposition(in, Bank, City) :- common_noun(local_bank, Bank).
+% "from" can mean the origin or residence of a person
+preposition(from, Person, Country) :- lives(Person, City), location(City, Country).
+preposition(from, Person, City) :- lives(Person, City).
+preposition(from, Person, Country) :- country(Country), lives(Person, City), location(City, Country).
 
+% "in" can refer to the location of a city, country, or bank
+preposition(in, City, Country) :- city(City), country(Country), location(City, Country).
+preposition(in, Bank, City) :- bank(Bank), city(City), location(Bank, City).
+preposition(in, Account, Bank) :- account(Account, _, Bank, _).
+preposition(in, Person, Country) :- lives(Person, City), location(City, Country).
+preposition(in, Person, City) :- lives(Person, City).
 
-            
-preposition(with, Account, Balance) :- common_noun(account, Account), common_noun(balance, Balance).
-preposition(with, Person, Account) :- person(Person), common_noun(account, Account).
-
-
-
+% "with" can specify association, such as a person having a balance or a person holding an account
+preposition(with, Person, Account) :- account(Account, Person, _, _).
+preposition(with, Account, Balance) :- account(Account, _, _, Balance).
+preposition(with, Person, Balance) :- account(_, Person, _, Balance).
+preposition(with, Bank, Account) :- account(Account, _, Bank, _).
 
 
 
