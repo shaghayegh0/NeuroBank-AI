@@ -139,6 +139,7 @@ article(any).
 
 
 common_noun(bank, X) :- bank(X).
+
 common_noun(city, X) :- city(X).
 common_noun(country, X) :- country(X).
 common_noun(man, X) :- man(X).
@@ -169,6 +170,9 @@ adjective(male, X) :- man(X).
 
 adjective(local, Bank) :- bank(Bank), location(BankCity, canada), location(Bank, BankCity).
 adjective(local, Person) :- lives(Person, City), location(City, canada).
+adjective(local, X) :- common_noun(Y , X).
+adjective(local, Bank) :- bank(Bank), location(BankCity, canada), location(Bank, BankCity).
+
 
 
 
@@ -188,9 +192,17 @@ recent(X) :- created(X, _, _, _, 2024).
 
 % Prepositions
 preposition(of, Owner, Account) :- common_noun(owner, Owner), common_noun(account, Account).
+
 preposition(from, Person, City) :- person(Person), lives(Person, City).
+
 preposition(in, Place, Country) :- city(Place), country(Country).
 preposition(in, Bank, City) :- bank(Bank), location(City, canada).
+preposition(in, Adjective, Bank) :- adjective(Adjective, Bank).
+preposition(in, Bank, City) :- common_noun(bank, Bank).
+preposition(in, Bank, City) :- common_noun(local_bank, Bank).
+
+
+            
 preposition(with, Account, Balance) :- common_noun(account, Account), common_noun(balance, Balance).
 preposition(with, Person, Account) :- person(Person), common_noun(account, Account).
 
