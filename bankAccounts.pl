@@ -20,15 +20,15 @@
 % Accounts with required balances
 account(1, sherry, cibc, 320).
 account(2, theresa, bank_of_montreal, 450).
-account(3, bob, royal_bank, 60000). % large account for Canadian man
-account(4, sarah, cibc, 15000).     % large local account
+account(3, bob, royal_bank, 60000). % query2
+account(4, sarah, cibc, 15000).     % query7
 account(5, tara, td_bank, 7500).     % medium account for woman in Markham
 account(6, james, cibc, 10000).      % medium account
-account(7, niall, bank_of_montreal, 20000). % large account
-account(8, zain, royal_bank, 800).   % small account for foreign man in Canadian bank
+account(7, niall, bank_of_montreal, 20000). % query7
+account(8, zain, royal_bank, 800).   % query3
 account(9, harry, scotiabank, 5100). % medium account for Canadian
 account(10, liam, td_bank, 2750).    % medium account
-account(11, john, td_bank, 1000).    % medium account in a local bank
+account(11, john, rbc, 100).    % query4
 
 % Account creation years to differentiate "new" and "old"
 created(1, sherry, cibc, 1, 2022).
@@ -41,34 +41,35 @@ created(7, niall, bank_of_montreal, 6, 2019).
 created(8, zain, royal_bank, 10, 2023).
 created(9, harry, scotiabank, 4, 2021).
 created(10, liam, td_bank, 8, 2024).
-created(11, john, td_bank, 12, 2024).
+created(11, john, rbc, 12, 2024).   % query4
 
 % Residence locations
 lives(sherry, toronto).
 lives(theresa, scarborough).
-lives(bob, richmondHill).       % Canadian man
-lives(sarah, vancouver).
-lives(tara, markham).            % woman in Markham
+lives(bob, richmondHill).       % query2
+lives(sarah, vancouver).        % query7
+lives(tara, markham).           % woman in Markham
 lives(james, toronto).
-lives(niall, calgary).
-lives(zain, mississauga).        % foreign person with small account
+lives(niall, calgary).          % query7
+lives(zain, nyc).               % query3
 lives(harry, montreal).
 lives(liam, ottawa).
-lives(john, sanFrancisco).       % American for the foreign, small account condition
+lives(john, losAngeles).        % query4
 
 % City and country locations
 location(toronto, canada).
 location(scarborough, canada).
 location(richmondHill, canada).
-location(vancouver, canada).
+location(vancouver, canada).        % query7
 location(markham, canada).
 location(mississauga, canada).
 location(calgary, canada).
-location(montreal, canada).
+location(montreal, canada).         % query7
 location(ottawa, canada).
-location(sanFrancisco, usa).      % American city for query 4
-location(bank_of_montreal, montreal).
-location(cibc, toronto).
+location(losAngeles, usa).          % query4
+location(nyc, usa).                 % query3
+location(bank_of_montreal, montreal).       % query7
+location(cibc, toronto).            % query7
 location(royal_bank, toronto).
 location(td_bank, toronto).
 location(scotiabank, ottawa).
@@ -76,12 +77,12 @@ location(scotiabank, ottawa).
 % Gender assignments
 gender(sherry, woman).
 gender(theresa, woman).
-gender(bob, man).                % Canadian man with large account
+gender(bob, man).                % query2
 gender(sarah, woman).
 gender(tara, woman).             % woman in Markham with medium account
 gender(james, man).
 gender(niall, man).
-gender(zain, man).               % foreign man with small account in a Canadian bank
+gender(zain, man).               % query3
 gender(harry, man).
 gender(liam, man).
 gender(john, man).               % American man for query with foreign small account
@@ -152,6 +153,8 @@ common_noun(person, X) :- person(X).
 common_noun(owner, X) :- person(X).
 common_noun(account, X) :- account(X, _, _, _).
 common_noun(balance, Balance) :- account(_, _, _, Balance).
+common_noun(male, X) :- man(X).        % query3
+common_noun(female, X) :- woman(X).
 
 
 
@@ -174,7 +177,9 @@ proper_noun(X) :- number(X).
 
 
 
-adjective(canadian, X) :- lives(X, City) , location(City, canada).
+adjective(canadian, X) :- lives(X, City) , location(City, canada).                  %canadian person
+adjective(canadian, X) :- bank(X) , location(X , City) , location(City, canada).   %canadian bank
+
 adjective(american, X) :- lives(X, City), location(City, usa).
 adjective(british, X) :- lives(X, City), location(City, uk).
 adjective(female, X) :- woman(X).
