@@ -29,6 +29,8 @@ account(8, zain, royal_bank, 800).   % query3
 account(9, harry, scotiabank, 5100). % medium account for Canadian
 account(10, liam, td_bank, 2750).    % medium account
 account(11, john, rbc, 100).    % query4
+account(12, garfield, cibc, 500). % query1b
+account(13, garfield, cibc, 5000). % query1b
 
 % Account creation years to differentiate "new" and "old"
 created(1, sherry, cibc, 1, 2022).
@@ -42,6 +44,8 @@ created(8, zain, royal_bank, 10, 2023).
 created(9, harry, scotiabank, 4, 2021).
 created(10, liam, td_bank, 8, 2024).
 created(11, john, rbc, 12, 2024).   % query4
+created(12, garfield, cibc, 12, 2021). % query1b
+created(13, garfield, cibc, 12, 2022). % query1b
 
 % Residence locations
 lives(sherry, toronto).
@@ -55,6 +59,7 @@ lives(zain, nyc).               % query3
 lives(harry, montreal).
 lives(liam, ottawa).
 lives(john, losAngeles).        % query4
+lives(garfield, montreal).      % query1b
 
 % City and country locations
 location(toronto, canada).
@@ -86,6 +91,7 @@ gender(zain, man).               % query3
 gender(harry, man).
 gender(liam, man).
 gender(john, man).               % American man for query with foreign small account
+gender(garfield, man).           % query1b
 
 
 
