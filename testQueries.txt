@@ -15,52 +15,41 @@
 %
 
 %%%%%% QUERY 1
-%% Description:
-
-
+%% Description: canadian man, from richmondHill, old, large balance
+what([the, old, large, canadian, account, of, a, man, from, richmondHill, with, a, balance, greater, than, 50000], X).
 
 %%%%%% QUERY 2
-%% Description:
-
-
+%% Description: foreign man, in usa, 2024, small account
+what([any, foreign, man, in, the, usa, with, a, small, bank, account, created, in, 2024], X).
 
 %%%%%% QUERY 3
-%% Description:
-
-
+%% Description: canadian account, toronto bank, owner in markham, medium, new
+what([the, new, medium, canadian, account, from, the, bank, located, in, toronto, with, an, owner, who, lives, in, markham], X).
 
 %%%%%% QUERY 4
-%% Description:
-
-
+%% Description: british woman, london, old, large balance
+what([the, british, account, of, a, woman, who, has, a, large, balance, and, created, before, 2023, in, london], X).
 
 %%%%%% QUERY 5
-%% Description:
-
-
+%% Description: canadian woman, markham, 2021, medium balance
+what([the, old, medium, balance, associated, with, a, canadian, woman, from, markham, with, an, account, created, in, 2021], X).
 
 %%%%%% QUERY 6
-%% Description:
-
-
+%% Description: american man, nyc, royal_bank, large account, old
+what([any, large, account, of, an, american, man, from, nyc, who, has, an, account, with, royal_bank, created, before, 2023], X).
 
 %%%%%% QUERY 7
-%% Description:
-
-
+%% Description: canadian bank, montreal, foreign man, usa, small account
+what([the, canadian, bank, in, montreal, with, a, small, account, held, by, a, foreign, man, from, usa], X).
 
 %%%%%% QUERY 8
-%% Description:
-
-
+%% Description: local woman, markham, 2022, old account, local balance
+what([the, local, balance, of, a, woman, who, owns, an, old, account, in, markham, created, in, 2022], X).
 
 %%%%%% QUERY 9
-%% Description:
-
-
+%% Description: canadian woman, canada, new, large, exact balance 7500
+what([the, new, large, canadian, account, of, a, woman, living, in, canada, with, a, balance, of, exactly, 7500], X).
 
 %%%%%% QUERY 10
-%% Description:
-
-
-
+%% Description: british man, royal_bank, toronto, old, small account
+what([any, old, small, account, from, royal_bank, owned, by, a, british, man, with, a, medium, balance, in, toronto], X).
