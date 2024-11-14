@@ -18,48 +18,43 @@
 %%%%% Put statements for account, created, lives, location and gender below
 
 % Accounts with required balances
-account(1, sherry, cibc, 320).
+account(1, sherry, metro_credit_union, 3200).       % query11
 account(2, theresa, bank_of_montreal, 450).
 account(3, bob, royal_bank, 60000). % query2
 account(4, sarah, cibc, 15000).     % query7
-account(5, tara, td_bank, 7500).     % medium account for woman in Markham
-account(6, james, cibc, 10000).      % medium account
+account(5, tara, td_bank, 7500).     % query8
+account(6, james, royal_bank, 10000).      % query10
 account(7, niall, bank_of_montreal, 20000). % query7
 account(8, zain, royal_bank, 800).   % query3
 account(9, harry, scotiabank, 5100). % medium account for Canadian
-account(10, liam, td_bank, 2750).    % medium account
+account(10, liam, td_bank, 275).    % query9
 account(11, john, rbc, 100).    % query4
-account(12, garfield, cibc, 500). % query1b
-account(13, garfield, cibc, 5000). % query1b
 
 % Account creation years to differentiate "new" and "old"
-created(1, sherry, cibc, 1, 2022).
+created(1, sherry, metro_credit_union, 1, 2022).           % query11
 created(2, theresa, bank_of_montreal, 5, 2023).
 created(3, bob, royal_bank, 3, 2024).
 created(4, sarah, cibc, 7, 2021).
 created(5, tara, td_bank, 11, 2022).
-created(6, james, cibc, 9, 2020).
+created(6, james, royal_bank, 9, 2020).
 created(7, niall, bank_of_montreal, 6, 2019).
 created(8, zain, royal_bank, 10, 2023).
 created(9, harry, scotiabank, 4, 2021).
-created(10, liam, td_bank, 8, 2024).
+created(10, liam, td_bank, 8, 2024).    % query9
 created(11, john, rbc, 12, 2024).   % query4
-created(12, garfield, cibc, 12, 2021). % query1b
-created(13, garfield, cibc, 12, 2022). % query1b
 
 % Residence locations
-lives(sherry, toronto).
+lives(sherry, markham).                % query11
 lives(theresa, scarborough).
 lives(bob, richmondHill).       % query2
 lives(sarah, vancouver).        % query7
-lives(tara, markham).           % woman in Markham
+lives(tara, markham).           % query8
 lives(james, toronto).
 lives(niall, calgary).          % query7
 lives(zain, nyc).               % query3
 lives(harry, montreal).
-lives(liam, ottawa).
+lives(liam, london).            % query9
 lives(john, losAngeles).        % query4
-lives(garfield, montreal).      % query1b
 
 % City and country locations
 location(toronto, canada).
@@ -78,6 +73,7 @@ location(cibc, toronto).            % query7
 location(royal_bank, toronto).
 location(td_bank, toronto).
 location(scotiabank, ottawa).
+location(london, uk).               % query9
 
 % Gender assignments
 gender(sherry, woman).
@@ -91,7 +87,6 @@ gender(zain, man).               % query3
 gender(harry, man).
 gender(liam, man).
 gender(john, man).               % American man for query with foreign small account
-gender(garfield, man).           % query1b
 
 
 
@@ -161,6 +156,7 @@ common_noun(account, X) :- account(X, _, _, _).
 common_noun(balance, Balance) :- account(_, _, _, Balance).
 common_noun(male, X) :- man(X).        % query3
 common_noun(female, X) :- woman(X).
+common_noun(american, X) :- person(american).
 
 
 
@@ -183,8 +179,8 @@ proper_noun(X) :- number(X).
 
 
 
-adjective(canadian, X) :- lives(X, City) , location(City, canada).                  %canadian person
-adjective(canadian, X) :- bank(X) , location(X , City) , location(City, canada).   %canadian bank
+adjective(canadian, X) :- lives(X, City) , location(City, canada).                  % canadian person
+adjective(canadian, X) :- bank(X) , location(X , City) , location(City, canada).    % canadian bank
 
 adjective(american, X) :- lives(X, City), location(City, usa).
 adjective(british, X) :- lives(X, City), location(City, uk).
@@ -200,11 +196,19 @@ adjective(local, X) :- common_noun(Y , X).
 
 
 adjective(foreign, X) :- lives(X, City), location(City, Country), not Country = canada.
+
 adjective(small, ID) :- account(ID, _, _, Balance), Balance < 1000.
 adjective(medium, ID) :- account(ID, _, _, Balance), Balance >= 1000, Balance =< 10000.
 adjective(large, ID) :- account(ID, _, _, Balance), Balance > 10000.
+
+adjective(largest, ID1) :- account(ID1, _, _, Balance1), not((account(ID2, _, _, Balance2), Balance2 > Balance1)).
+
+
 adjective(old, X) :- created(X, _, _, _, Year), Year < 2024.
 adjective(new, X) :- created(X, _, _, _, 2024).
+
+adjective(oldest, X1) :- created(X1, _, _, _, Year1), not((created(X2, _, _, _, Year2),Year2 < Year1)).
+
 recent(X) :- created(X, _, _, _, 2024).
 
 
@@ -217,18 +221,37 @@ recent(X) :- created(X, _, _, _, 2024).
 
 % "of" can mean "owned by" or relate an account to a person or balance
 preposition(of, Account, Person) :- account(Account, Person, _, _).
+preposition(of, Account, Person) :- person(Person), account(Account, Person, _, _).   % query10
+
+preposition(of, Account, Person) :- common_noun(account, Account), adjective(_ , Person).   % query12
+preposition(of, Person, Account) :- common_noun(account, Account), adjective(_ , Person).   % query12
+
+% Connect an account to an American person  query12
+preposition(of, Account, Person) :- account(_, Person, _, _), adjective(american, Person).
+preposition(of, Account, Person) :- person(Person), account(_, Person, _, _), adjective(american, Person).
+
 preposition(of, Account, Balance) :- account(Account, _, _, Balance).
 preposition(of, Balance, Account) :- account(Account, _, _, Balance).
+
 preposition(of, Account, Owner) :- common_noun(owner, Owner), account(Account, Owner, _, _).
+
+
+
+
+
 
 % "from" can mean the origin or residence of a person
 preposition(from, Person, Country) :- lives(Person, City), location(City, Country).
 preposition(from, Person, City) :- lives(Person, City).
 preposition(from, Person, Country) :- country(Country), lives(Person, City), location(City, Country).
+preposition(from, X, Country) :- common_noun(owner, Owner), country(Country), location(City, Country).          % query7
+
 
 % "in" can refer to the location of a city, country, or bank
 preposition(in, City, Country) :- city(City), country(Country), location(City, Country).
 preposition(in, Bank, City) :- bank(Bank), city(City), location(Bank, City).
+preposition(in, Bank, Country) :- bank(Bank), location(Bank, C),location(C, Country).       % query9
+
 preposition(in, Account, Bank) :- account(Account, _, Bank, _).
 preposition(in, Person, Country) :- lives(Person, City), location(City, Country).
 preposition(in, Person, City) :- lives(Person, City).
@@ -238,6 +261,7 @@ preposition(with, Person, Account) :- account(Account, Person, _, _).
 preposition(with, Account, Balance) :- account(Account, _, _, Balance).
 preposition(with, Person, Balance) :- account(_, Person, _, Balance).
 preposition(with, Bank, Account) :- account(Account, _, Bank, _).
+
 
 
 
