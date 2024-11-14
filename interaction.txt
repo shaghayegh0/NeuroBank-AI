@@ -1,3 +1,4 @@
+
 % Enter the names of your group members below.
 % If you only have 2 group members, leave the last space blank
 %
@@ -11,20 +12,212 @@
 %%%%% INTERACTION
 
 
+Task 1: Building a Database
 
+Query (a): 
 ?- account(X, Name, royal_bank, _), gender(Name, man), lives(Name, richmondHill).
+X = 3
+Name = bob
 
-
+Query (b): 
 ?- lives(Name, City), location(City, canada), account(X, Name, cibc, _), account(Y, Name, cibc, _), not X = Y.
+Name = garfield
+City = montreal
+X = 12
+Y = 13
 
-
+Query (c): 
 ?- location(Bank, toronto).
+Bank = cibc
+Yes (0.00s cpu, solution 1, maybe more) ? ;
+Bank = royal_bank
+Yes (0.00s cpu, solution 2, maybe more) ? ;
+Bank = td_bank
+Yes (0.00s cpu, solution 3)
 
-
+Query (d): 
 ?- lives(Name, scarborough), account(X, Name, bank_of_montreal, Balance).
+Name = theresa
+X = 2
+Balance = 450
+Yes (0.00s cpu)
 
+Query (e): 
+?- location(City, canada), location(City2, canada), lives(Person1, City), lives(Person2, City2), not Person1 = Person2, account(_, Person1, Bank, _), account(_, Person2, Bank, _).
+City = toronto
+City2 = richmondHill
+Person1 = james
+Person2 = bob
+Bank = royal_bank
+Yes (0.00s cpu, solution 1, maybe more) ? ;
+City = scarborough
+City2 = calgary
+Person1 = theresa
+Person2 = niall
+Bank = bank_of_montreal
+Yes (0.00s cpu, solution 2, maybe more) ? ;
+City = richmondHill
+City2 = toronto
+Person1 = bob
+Person2 = james
+Bank = royal_bank
+Yes (0.01s cpu, solution 3, maybe more) ? ;
+City = vancouver
+City2 = montreal
+Person1 = sarah
+Person2 = garfield
+Bank = cibc
+Yes (0.01s cpu, solution 4, maybe more) ? ;
+City = vancouver
+City2 = montreal
+Person1 = sarah
+Person2 = garfield
+Bank = cibc
+Yes (0.01s cpu, solution 5, maybe more) ? ;
+City = calgary
+City2 = scarborough
+Person1 = niall
+Person2 = theresa
+Bank = bank_of_montreal
+Yes (0.01s cpu, solution 6, maybe more) ? ;
+City = montreal
+City2 = vancouver
+Person1 = garfield
+Person2 = sarah
+Bank = cibc
+Yes (0.01s cpu, solution 7, maybe more) ? ;
+City = montreal
+City2 = vancouver
+Person1 = garfield
+Person2 = sarah
+Bank = cibc
+Yes (0.01s cpu, solution 8, maybe more) ? ;
 
-?- location(City, canada), lives(Person1, City), lives(Person2, City), not Person1 = Person2, account(_, Person1, Bank, _), account(_, Person2, Bank, _).
-
-
+Query (f): 
 ?- location(City, usa).
+City = losAngeles
+Yes (0.00s cpu, solution 1, maybe more) ? ;
+City = nyc
+Yes (0.00s cpu, solution 2)
+
+Task 3: Building a Lexicon
+
+Query 1:
+what([a, city, in, canada], X). 
+X = markham
+X = toronto
+X = scarborough
+X = richmondHill
+X = vancouver
+X = mississauga
+X = calgary
+X = ottawa
+
+
+
+
+
+
+Query 2:
+what([the, canadian, man, with, a, large, account, in, a, local, bank], X).
+X = bob
+
+Query 3: 
+what([any,foreign,male,person,with,a,small,account,in,a,canadian,bank], X).
+X = zain
+
+Query 4:
+what([a,foreign,male,person,from,losAngeles,with,a,small,account,in,rbc], X).
+X = john
+
+Query 5: 
+what([a, balance, of, a, large, account, in, a, local, bank], X). 
+X = 60000
+X = 15000
+X = 10000
+X = 20000
+
+Query 6:
+what([any, local, bank, with, an, account, of, a, man, from, usa], X).
+X = royal_bank
+X = rbc
+
+Query 7:
+what([an, owner, from, canada, of, a, large, local, account], X). 
+X = bob
+X = sarah
+X = james
+X = niall
+
+Query 8:
+what([a, woman, from, markham, with, a, medium, account], X).
+X = sherry
+X = tara
+
+Query 9:
+what([a,bank,in,canada,with,a,small,account,of,a,foreign,person], X).
+X = royal_bank
+X = td_bank
+X = rbc
+
+Query 10:
+what([a, medium, account, in, a, canadian, bank, with, a, small, account, of, an, american], X). 
+
+X = 5
+X = 6
+
+Query 11:
+what([the, balance, of, the, medium, account, in, metro credit union, of, a, woman, from, markham], X). 
+
+X = 3200
+Yes (0.72s cpu, solution 2, maybe more) ? ;
+
+Query 12:
+what([a,balance,of,an,account,of,an,american,with,a,small,account,in, a,local,bank,with,a,large,account],X). 
+
+X = 450
+Yes (20.27s cpu, solution 1, maybe more) ? ;
+
+
+
+Task 4: Testing a Lexicon
+
+Query 1:
+what([the, old, large, canadian, account, of, a, man, from, richmondHill, with, a, balance, greater, than, 50000], X).
+No.
+
+Query 2:
+what([any, foreign, man, in, the, usa, with, a, small, bank, account, created, in, 2024], X).
+No.
+
+Query 3: 
+what([the, new, medium, canadian, account, from, the, bank, located, in, toronto, with, an, owner, who, lives, in, markham], X).
+No.
+
+Query 4:
+what([the, british, account, of, a, woman, who, has, a, large, balance, and, created, before, 2023, in, london], X).
+No.
+
+Query 5: 
+what([the, old, medium, balance, associated, with, a, canadian, woman, from, markham, with, an, account, created, in, 2021], X).
+No.
+
+Query 6:
+what([any, large, account, of, an, american, man, from, nyc, who, has, an, account, with, royal_bank, created, before, 2023], X).
+No.
+
+Query 7:
+what([the, canadian, bank, in, montreal, with, a, small, account, held, by, a, foreign, man, from, usa], X).
+No.
+
+Query 8:
+what([the, local, balance, of, a, woman, who, owns, an, old, account, in, markham, created, in, 2022], X).
+No.
+
+Query 9:
+what([the, new, large, canadian, account, of, a, woman, living, in, canada, with, a, balance, of, exactly, 7500], X).
+No.
+
+Query 10:
+what([any, old, small, account, from, royal_bank, owned, by, a, british, man, with, a, medium, balance, in, toronto], X).
+No.
