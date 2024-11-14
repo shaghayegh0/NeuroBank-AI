@@ -29,6 +29,11 @@ account(8, zain, royal_bank, 800).   % query3
 account(9, harry, scotiabank, 5100). % medium account for Canadian
 account(10, liam, td_bank, 275).    % query9
 account(11, john, rbc, 100).    % query4
+account(12, garfield, cibc, 500).
+account(13, garfield, cibc, 5000).
+
+
+
 
 % Account creation years to differentiate "new" and "old"
 created(1, sherry, metro_credit_union, 1, 2022).           % query11
@@ -42,6 +47,8 @@ created(8, zain, royal_bank, 10, 2023).
 created(9, harry, scotiabank, 4, 2021).
 created(10, liam, td_bank, 8, 2024).    % query9
 created(11, john, rbc, 12, 2024).   % query4
+created(12, garfield, cibc , 12 , 2021).
+created(13, garfield, cibc , 12 , 2022).
 
 % Residence locations
 lives(sherry, markham).                % query11
@@ -55,6 +62,7 @@ lives(zain, nyc).               % query3
 lives(harry, montreal).
 lives(liam, london).            % query9
 lives(john, losAngeles).        % query4
+lives(garfield , montreal).
 
 % City and country locations
 location(toronto, canada).
@@ -87,6 +95,7 @@ gender(zain, man).               % query3
 gender(harry, man).
 gender(liam, man).
 gender(john, man).               % American man for query with foreign small account
+gender(garfield, man).
 
 
 
@@ -223,17 +232,15 @@ recent(X) :- created(X, _, _, _, 2024).
 preposition(of, Account, Person) :- account(Account, Person, _, _).
 preposition(of, Account, Person) :- person(Person), account(Account, Person, _, _).   % query10
 
-preposition(of, Account, Person) :- common_noun(account, Account), adjective(_ , Person).   % query12
-preposition(of, Person, Account) :- common_noun(account, Account), adjective(_ , Person).   % query12
 
-% Connect an account to an American person  query12
-preposition(of, Account, Person) :- account(_, Person, _, _), adjective(american, Person).
-preposition(of, Account, Person) :- person(Person), account(_, Person, _, _), adjective(american, Person).
 
+
+preposition(of, Account, Person) :- account(Account, Person, _, _).
 preposition(of, Account, Balance) :- account(Account, _, _, Balance).
 preposition(of, Balance, Account) :- account(Account, _, _, Balance).
-
 preposition(of, Account, Owner) :- common_noun(owner, Owner), account(Account, Owner, _, _).
+preposition(of, Person, Account) :- account(Account, Person, _, _).
+
 
 
 
@@ -248,13 +255,16 @@ preposition(from, X, Country) :- common_noun(owner, Owner), country(Country), lo
 
 
 % "in" can refer to the location of a city, country, or bank
-preposition(in, City, Country) :- city(City), country(Country), location(City, Country).
-preposition(in, Bank, City) :- bank(Bank), city(City), location(Bank, City).
+preposition(in, City, Country) :- location(City, Country).
+preposition(in, Bank, City) :- location(Bank, City).
 preposition(in, Bank, Country) :- bank(Bank), location(Bank, C),location(C, Country).       % query9
 
 preposition(in, Account, Bank) :- account(Account, _, Bank, _).
 preposition(in, Person, Country) :- lives(Person, City), location(City, Country).
 preposition(in, Person, City) :- lives(Person, City).
+
+
+
 
 % "with" can specify association, such as a person having a balance or a person holding an account
 preposition(with, Person, Account) :- account(Account, Person, _, _).
