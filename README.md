@@ -1,11 +1,36 @@
-# CPS721_Assignment04
+migiGPT – Natural Language Processing in Prolog
+- A Prolog-powered natural language processing (NLP) system for querying structured financial data.
 
-1: (b) Is there a Canadian who has more than one account in CIBC? --> I added garfield to satisfy query 1b
 
-3: returns the same answer over and over again (but it is correct and i think that is allowed),
-but it also takes a while to get to some of the correct answers
-(7) what([an, owner, from, canada, of, a, large, local, account], X). --> returns no
-//(9) what([a, bank, in, canada, with, a, small, account, of, a, foreign, person], X). --> returns no
-//(10) what([a, medium, account, in, a, canadian, bank, with, a, small, account, of,an, american], X). --> returns no
-(11) what([the, balance, of, the, medium, account, in, metro_credit_union, of, a, woman, from, markham], X). --> returns no
-(12) what([a, balance,of,an,account,of,an,american,with,a,small,account,in,a,local,bank,with,a,large,account],X). --> returns no
+🚀 Overview
+
+    migiGPT is a Prolog-based NLP system that processes natural language queries and extracts structured information from a financial database.
+    It uses logical reasoning and pattern matching to handle queries about bank accounts, people, locations, and balances.
+
+📌 Features
+
+    ✅ Lexical Parsing – Parses and understands natural language queries
+    ✅ Prolog-Based Knowledge Representation – Stores financial data using logical facts & rules
+    ✅ Entity Recognition – Identifies people, banks, locations, and account details
+    ✅ Preposition Handling – Supports queries with "of", "from", "in", and "with"
+    ✅ Logical Query Processing – Finds the best-matching answers using structured inference
+
+🛠️ Technologies Used
+
+    Prolog (SWI-Prolog)
+    Natural Language Processing (NLP)
+    Knowledge Representation & Reasoning
+    Logic-Based Query Processing
+
+📦 Installation & Setup
+
+    1. Install SWI-Prolog - brew install swi-prolog
+    2.Clone repo -> git clone https://github.com/shaghayegh0/migiGPT.git
+    3. Run Prolog -> swipl migiGPT.pl
+
+🧩 How It Works
+
+    Database Rules: Defines facts about people, banks, locations, and accounts
+    Lexicon & Grammar: Recognizes nouns, adjectives, prepositions for NLP parsing
+    Logical Inference: Uses Prolog rules to derive answers from structured queries
+
