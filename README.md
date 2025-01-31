@@ -4,7 +4,7 @@ NeuroBank AI – Natural Language Processing in Prolog
 
 🚀 Overview
 
-    migiGPT is a Prolog-based NLP system that processes natural language queries and extracts structured information from a financial database.
+    NeuroBank AI is a Prolog-based NLP system that processes natural language queries and extracts structured information from a financial database.
     It uses logical reasoning and pattern matching to handle queries about bank accounts, people, locations, and balances.
 
 📌 Features
