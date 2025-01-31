@@ -1,4 +1,4 @@
-migiGPT – Natural Language Processing in Prolog
+NeuroBank AI – Natural Language Processing in Prolog
 - A Prolog-powered natural language processing (NLP) system for querying structured financial data.
 
 
